@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style>
+            input, textarea, select, button {
+  width : 150px;
+  margin: 0;
+
+  -webkit-box-sizing: border-box; /* For legacy WebKit based browsers */
+}
+        </style>
+    </head>
+    
+    <body style="text-align:center">
+        
+        <table border="2" align="center">
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Date Of Birth</th>
+                <th>Index</th>
+                <th>Email</th>
+            </tr>           
+            <tr th:if="${listOfPerson.empty}">
+                <td colspan="8">No Person in Database</td>
+            </tr>
+            <tr th:each="person,iterationstatus :${listOfPerson}">
+                <td th:text="${person.firstName}"> firstName </td>
+                <td th:text="${person.lastName}"> lastName </td>
+                <td th:text="${person.dateOfBirth}"> dateOfBirth </td>
+                <td th:text="${person.index}"> index </td>
+                <td th:text="${person.email}"> email </td>
+            </tr>           
+        </table>  
+        <a class="hpbottom" th:each="i : ${#numbers.sequence( 1, amountOfPages)}" th:text="${i}"
+           th:href="@{showPersonView?(page=${i},sortedColumn=${sortedColumn},
+                      firstName=${person.firstName},lastName=${person.lastName},email=${person.email})}"/>
+        
+        
+        <br/><br/> 
+        <h1>Filter</h1>
+        <form action="showPersonView" method="get" name="person">
+            <input type="hidden" name="page" th:value="${page}" />
+            <table align="center">
+                <tr>
+                    <td>Person firstname: </td>
+                    <td><input type="text" name="firstName"/></td>
+                </tr>
+                <tr>
+                    <td>Person lastname: </td>
+                    <td><input type="text" name="lastName"/></td>
+                </tr>
+                <tr>
+                    <td>Person email: </td>
+                    <td><input type="email" name="email"/></td>
+                </tr>                   
+            </table>
+            <h1>Sort by:</h1>
+            <select name="sortedColumn">
+                <option value="firstName">firstName</option>
+                <option value="lastName">lastName</option>
+                <option value="dateOfBirth">dateOfBirth</option>
+                <option value="index">index</option>
+                <option value="email">email</option>
+            </select>
+            <br/><br/>
+            <input type="submit" value="Submit"/>
+        </form>
+        
+    </body>
+</html>
